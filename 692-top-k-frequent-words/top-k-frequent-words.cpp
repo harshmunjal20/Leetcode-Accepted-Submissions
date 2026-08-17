@@ -8,21 +8,22 @@ public:
 
     vector<string> topKFrequent(vector<string>& words, int k) {
         vector<string> ans;
-        unordered_map<string, int> wordsFreqMap;
+        unordered_map<string, int> wordFreqMap;
         priority_queue<pair<int, string>, vector<pair<int, string>>, Compare> maxHeap;
 
         for (const string& word : words) {
-            wordsFreqMap[word]++;
+            wordFreqMap[word]++;
         }
 
-        for (const pair<string, int>& wordFreqPair : wordsFreqMap) {
+        for (const pair<string, int>& wordFreqPair : wordFreqMap) {
             string word = wordFreqPair.first;
             int freq = wordFreqPair.second;
+
             maxHeap.push({freq, word});
         }
         
-        vector<string> tempWords;
         int prevFreq = maxHeap.top().first;
+        vector<string> tempWords;
 
         while (!maxHeap.empty() && k > 0) {
             int freq = maxHeap.top().first;
@@ -35,11 +36,12 @@ public:
                 while (!tempWords.empty()) {
                     string word = tempWords.back();
                     tempWords.pop_back();
+
                     ans.push_back(word);
                 }
             }
 
-            tempWords.push_back(word);
+            tempWords.push_back(word);  
             prevFreq = freq;
             k--;
         }
@@ -49,6 +51,7 @@ public:
         while (!tempWords.empty()) {
             string word = tempWords.back();
             tempWords.pop_back();
+
             ans.push_back(word);
         }
 

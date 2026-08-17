@@ -1,100 +1,85 @@
-class Solution {
+class DSU {
 private:
     vector<int> parent;
     vector<int> rank;
-    unordered_map<int, unordered_set<int>> neighbours;
+public:
+    DSU(int totalSize) {
+        parent.resize(totalSize);
+        rank.resize(totalSize, 1);
 
-    int find(int x) {
-        if (x == parent[x]) return x;
-        return parent[x] = find(parent[x]);
-    }   
-
-    bool unite(int a, int b) {
-        int x_parent = find(a);
-        int y_parent = find(b);
-
-        if (x_parent == y_parent) {
-            return false;
+        for (int idx = 0; idx < totalSize; idx++) {
+            parent[idx] = idx;
         }
+    }
+    
+    int find(int val) {
+        if (val == parent[val]) return val;
+        return parent[val] = find(parent[val]);
+    }
 
-        if (rank[x_parent] > rank[y_parent]) {
-            parent[y_parent] = x_parent;
+    bool unite(int x, int y) {
+        int parent_x = find(x);
+        int parent_y = find(y);
 
-            for (const int& num : neighbours[y_parent]) {
-                neighbours[x_parent].insert(num);
-            }
+        if (parent_x == parent_y) return false;
+
+        if (rank[parent_x] > rank[parent_y]) {
+            parent[parent_y] = parent_x;
         }
-        else if (rank[x_parent] < rank[y_parent]) {
-            parent[x_parent] = y_parent;
-
-            for (const int& num : neighbours[x_parent]) {
-                neighbours[y_parent].insert(num);
-            }
+        else if (rank[parent_x] < rank[parent_y]) {
+            parent[parent_x] = parent_y;
         }
         else {
-            parent[y_parent] = x_parent;
-
-            for (const int& num : neighbours[y_parent]) {
-                neighbours[x_parent].insert(num);
-            }
-            rank[x_parent]++;
+            parent[parent_y] = parent_x;
+            rank[parent_x]++;
         }
 
         return true;
     }
+};
+
+class Solution {
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
-        // mapping of email to name 
-        unordered_map<int, string> idToName;
+        int totalAccounts = accounts.size();
+        DSU* dsu = new DSU(totalAccounts);
         vector<vector<string>> ans;
-        int id = 0;
-        unordered_map<string, int> emailToId;
-        unordered_map<int, string> idToEmail;
-
-        for (const vector<string>& account : accounts) {
-            string name = account[0];
-
-            for (int idx = 1; idx < account.size(); idx++) {
-                string email = account[idx];
-
-                if (emailToId.count(email) == 0) {
-                    idToName[id] = name;
-                    neighbours[id].insert(id);
-                    emailToId[email] = id;
-                    idToEmail[id] = email;
-                    id++;
-                }
-            }
-        }
-
-        rank.resize(id + 1, 1);
-        parent.resize(id + 1);
+        unordered_map<string, int> emailToIdxMap;
         
-        for (int count = 0; count < id; count++) {
-            parent[count] = count;
-        }
+        for (int idx = 0; idx < totalAccounts; idx++) {
+            string name = accounts[idx][0];
 
-        for (const vector<string>& account : accounts) {
-            string name = account[0];
+            for (int i = 1; i < accounts[idx].size(); i++) {
+                string email = accounts[idx][i];
 
-            for (int idx = 1; idx < account.size() - 1; idx++) {
-                unite(emailToId[account[idx]], emailToId[account[idx + 1]]);
-            }
-        }
-
-        for (int idx = 0; idx < parent.size(); idx++) {
-            if (idx == parent[idx]) {
-                vector<string> account;
-                string name = idToName[idx];
-                account.push_back(name);
-
-                for (const int& num : neighbours[idx]) {
-                    account.push_back(idToEmail[num]);
+                if (emailToIdxMap.count(email) == 0) {
+                    emailToIdxMap[email] = idx;
                 }
-
-                sort(account.begin() + 1, account.end());
-                ans.push_back(account);
+                else {
+                    dsu->unite(idx, emailToIdxMap[email]);
+                }
             }
+        }
+
+        unordered_map<int, unordered_set<string>> idxToEmailsMap;
+
+        for (int idx = 0; idx < totalAccounts; idx++) {
+            string name = accounts[idx][0];
+            int parentIdx = dsu->find(idx);
+
+            for (int i = 1; i < accounts[idx].size(); i++) {
+                string email = accounts[idx][i];
+                idxToEmailsMap[parentIdx].insert(email);
+            }
+        }
+
+        for (const pair<int, unordered_set<string>>& idxToEmails : idxToEmailsMap) {
+            vector<string> account;
+            int idx = idxToEmails.first;
+            account.push_back(accounts[idx][0]);
+            account.insert(account.end(), idxToEmails.second.begin(), idxToEmails.second.end());
+            sort(account.begin() + 1, account.end());
+            ans.push_back(account);
         }
 
         return ans;

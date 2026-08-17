@@ -1,35 +1,40 @@
+#define pi pair<int, string>
 class Solution {
 public:
     struct Compare {
-        bool operator()(const pair<int, string>& pair1, const pair<int, string>& pair2) const {
-            return pair1.first == pair2.first ? pair1.second > pair2.second : pair1.first < pair2.first;
+        bool operator()(const pi& pair1, const pi& pair2) {
+            return pair1.first == pair2.first ? pair1.second < pair2.second : pair1.first > pair2.first;
         }
     };
 
     vector<string> topKFrequent(vector<string>& words, int k) {
+        int totalWords = words.size();
+        priority_queue<pi, vector<pi>, Compare> minHeap;
         vector<string> ans;
-        unordered_map<string, int> wordsFreqMap;
-        priority_queue<pair<int, string>, vector<pair<int, string>>, Compare> maxHeap;
+        unordered_map<string, int> wordFreqMap;
 
         for (const string& word : words) {
-            wordsFreqMap[word]++;
+            wordFreqMap[word]++;
         }
 
-        for (const pair<string, int>& wordFreqPair : wordsFreqMap) {
+        for (const pair<string, int>& wordFreqPair : wordFreqMap) {
             string word = wordFreqPair.first;
             int freq = wordFreqPair.second;
-            maxHeap.push({freq, word});
+            minHeap.push({freq, word});
+
+            if (minHeap.size() > k) {
+                minHeap.pop();
+            }
         }
-        
-        while (!maxHeap.empty() && k > 0) {
-            int freq = maxHeap.top().first;
-            string word = maxHeap.top().second;
-            maxHeap.pop();
+
+        while (!minHeap.empty()) {
+            string word = minHeap.top().second;
+            minHeap.pop();
 
             ans.push_back(word);
-            k--;
         }
 
+        reverse(ans.begin(), ans.end());
         return ans;
     }
 };

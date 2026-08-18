@@ -1,10 +1,10 @@
 class Solution {
 public:
     int maximumXorProduct(long long a, long long b, int n) {
-        const long long MOD = 1e9 + 7;
+        long long MOD = 1e9 + 7;
 
         for (int i = n - 1; i >= 0; i--) {
-            long long bit = 1LL << i;
+            long long bit = (1LL << i);
 
             long long firstNum = a ^ bit;
             long long secondNum = b ^ bit;

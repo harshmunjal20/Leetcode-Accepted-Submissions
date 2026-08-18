@@ -1,0 +1,1 @@
+SELECT u.name AS name , Temp.balance FROM Users u INNER JOIN (SELECT account, SUM(amount) AS balance FROM Transactions GROUP BY account HAVING SUM(amount) > 10000) AS Temp ON Temp.account = u.account;

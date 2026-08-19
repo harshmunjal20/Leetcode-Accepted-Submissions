@@ -24,12 +24,7 @@ public:
         vector<int> times = startToEndTimes[startStation][endStation];
         int sz = times.size();
         double averageTime = 0;
-        int totalTime = 0;
-        
-        for (int idx = 0; idx < sz; idx++) {
-            totalTime += times[idx];
-        }
-
+        int totalTime = accumulate(times.begin(), times.end(), 0);
         return (double)totalTime / sz;
     }
 };

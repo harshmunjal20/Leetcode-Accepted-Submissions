@@ -22,10 +22,9 @@ public:
     }
     
     string cursorLeft(int k) {
-        if (idx - k < 0) idx = 0;
-        else idx = idx - k;
+        idx = max(0, idx - k);
 
-        if (idx >= 10) {
+        if (idx - 10 >= 0) {
             return ans.substr(idx - 10, 10);
         }
         else {
@@ -34,14 +33,10 @@ public:
     }
     
     string cursorRight(int k) {
-        if (idx + k <= ans.size()) {
-            idx += k;
-        }
-        else {
-            idx = ans.size();
-        }
+        int sz = ans.size();
+        idx = min(sz, idx + k);
 
-        if (idx >= 10) {
+        if (idx - 10 >= 0) {
             return ans.substr(idx - 10, 10);
         }
         else {

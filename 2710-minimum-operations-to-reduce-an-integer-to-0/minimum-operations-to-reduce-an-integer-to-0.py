@@ -12,8 +12,9 @@ class Solution(object):
                     n += 1
                 else:
                     n -= 1
+
                 count += 1
             else:
                 n >>= 1
-        
+
         return count

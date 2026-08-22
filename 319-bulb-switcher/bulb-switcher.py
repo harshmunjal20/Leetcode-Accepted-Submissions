@@ -4,7 +4,6 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        count = int(math.sqrt(n))
-        return count
+        return int(math.sqrt(n))
 
         

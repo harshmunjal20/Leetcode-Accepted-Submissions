@@ -37,7 +37,6 @@ class Solution(object):
         #         index += 1
         
         for key , value in strFreqMap.items():
-            print(key)
             if (value > maxFreq):
                 maxFreq = value
 

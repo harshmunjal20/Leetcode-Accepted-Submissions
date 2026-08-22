@@ -27,20 +27,7 @@ class Solution(object):
 
             j += 1
 
-        maxFreq = 0
-
-        # for key, value in strFreqMap.items():
-        #     index = 0
-
-        #     while index <= len(key) - minSize:
-        #         strFreqMap[key[index : index + minSize + 1]] += value 
-        #         index += 1
-        
-        for key , value in strFreqMap.items():
-            if (value > maxFreq):
-                maxFreq = value
-
-        return maxFreq
+        return max(strFreqMap.values()) if strFreqMap else 0
 
 
               

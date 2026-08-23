@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 class Solution(object):
     def robotWithString(self, s):
         """
@@ -9,18 +7,17 @@ class Solution(object):
         freqMap = [0] * 26
 
         for char in s:
-            idx = ord(char) - ord('a')
-            freqMap[idx] += 1
-        
-        def getMinChar(freqMap):
-            for idx in range(26):
-                if (freqMap[idx] > 0):
-                    return idx
-            
-            return 26
-        
+            freqMap[ord(char) - ord('a')] += 1
+
         t = []
         ans = []
+
+        def getMinChar(freqMap):
+            for idx in range(26):
+                if freqMap[idx] > 0:
+                    return idx
+
+            return 26
 
         for i in range(len(s)):
             currChar = ord(s[i]) - ord('a')
@@ -28,8 +25,7 @@ class Solution(object):
             freqMap[currChar] -= 1
 
             while t and (ord(t[-1]) - ord('a')) <= getMinChar(freqMap):
-                ans.append(t[-1])
-                t.pop()
+                ans.append(t.pop())
 
         return "".join(ans)
-            
+

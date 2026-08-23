@@ -23,8 +23,9 @@ class Solution(object):
             currChar = ord(s[i]) - ord('a')
             t.append(s[i])
             freqMap[currChar] -= 1
+            minChar = getMinChar(freqMap)
 
-            while t and (ord(t[-1]) - ord('a')) <= getMinChar(freqMap):
+            while t and (ord(t[-1]) - ord('a')) <= minChar:
                 ans.append(t.pop())
 
         return "".join(ans)

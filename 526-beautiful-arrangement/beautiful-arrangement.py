@@ -4,22 +4,24 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        count = [0]
-        def permutation(index, nums):
-            if index == len(nums):
-                count[0] += 1
-                return
 
-            i = index
+        def permutation(idx, bitMask, dp):
+            if idx > n:
+                return 1
 
-            while i < len(nums):
-                nums[i], nums[index] = nums[index], nums[i]
-                if nums[index] % index == 0 or index % nums[index] == 0:
-                    permutation(index + 1, nums)
-                nums[i], nums[index] = nums[index], nums[i]
-                i += 1
+            if dp[idx][bitMask] != -1:
+                return dp[idx][bitMask]
 
-        nums = [i for i in range(0, n + 1)]
-        permutation(1, nums)
+            numWays = 0
 
-        return count[0]
+            for i in range(1, n + 1):
+                if not bitMask & (1 << (i - 1)):
+                    if i % idx == 0 or idx % i == 0:
+                        numWays += permutation(idx + 1, bitMask | (1 << (i - 1)), dp)
+
+            dp[idx][bitMask] = numWays
+            return numWays
+
+        dp = [[-1 for _ in range(1 << n)] for _ in range(n + 1)]
+        return permutation(1, 0, dp)
+        

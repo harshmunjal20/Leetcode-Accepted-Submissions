@@ -5,23 +5,21 @@ class Solution(object):
         :rtype: int
         """
         count = [0]
-
-        def permutation(idx, nums):
-            if idx == len(nums):
+        def permutation(index, nums):
+            if index == len(nums):
                 count[0] += 1
                 return
 
-            i = idx
+            i = index
 
             while i < len(nums):
-                nums[i], nums[idx] = nums[idx], nums[i]
-                if idx % nums[idx] == 0 or nums[idx] % idx == 0:
-                    permutation(idx + 1, nums)
-                nums[i], nums[idx] = nums[idx], nums[i]
-
+                nums[i], nums[index] = nums[index], nums[i]
+                if nums[index] % index == 0 or index % nums[index] == 0:
+                    permutation(index + 1, nums)
+                nums[i], nums[index] = nums[index], nums[i]
                 i += 1
 
         nums = [i for i in range(0, n + 1)]
         permutation(1, nums)
+
         return count[0]
-        

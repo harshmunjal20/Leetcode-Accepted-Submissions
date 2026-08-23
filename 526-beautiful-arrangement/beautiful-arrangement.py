@@ -8,8 +8,8 @@ class Solution(object):
             if idx > n:
                 return 1
             
-            if dp[idx][bitMask] != -1:
-                return dp[idx][bitMask]
+            if dp[bitMask] != -1:
+                return dp[bitMask]
 
             numWays = 0
 
@@ -18,9 +18,8 @@ class Solution(object):
                     if idx % i == 0 or i % idx == 0:
                         numWays += permutation(idx + 1, bitMask | (1 << (i - 1)), dp)
             
-            dp[idx][bitMask] = numWays
+            dp[bitMask] = numWays
             return numWays
         
-        dp = [[-1 for _ in range(1 << n)] for _ in range(n + 1)]
+        dp = [-1 for _ in range(1 << n)] 
         return permutation(1, 0, dp)
-        

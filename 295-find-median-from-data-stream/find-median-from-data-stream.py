@@ -1,42 +1,60 @@
-import heapq
+from bisect import insort
 
 class MedianFinder(object):
 
     def __init__(self):
-        self.min_heap = []
-        self.max_heap = []
+        self.freq = [0] * 101
+
+        # Outliers
+        self.small = []   # numbers < 0, sorted
+        self.large = []   # numbers > 100, sorted
+
+        self.count = 0
 
     def addNum(self, num):
-        """
-        :type num: int
-        :rtype: None
-        """
-        if len(self.min_heap) >= len(self.max_heap): # push it in the maxHeap
-            if not self.max_heap or num < -self.max_heap[0]:
-                heapq.heappush(self.max_heap, -num)
-            else:
-                # minHeap to maxHeap transfer
-                heapq.heappush(self.max_heap, -heapq.heappop(self.min_heap))
-                heapq.heappush(self.min_heap, num)
-        else: # push it in the minHeap
-            if num >= -self.max_heap[0]:
-                heapq.heappush(self.min_heap, num)
-            else:
-                # tranfer top of maxheap to minheap and num to maxheap
-                heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
-                heapq.heappush(self.max_heap, -num)
-        
+        self.count += 1
+
+        if num < 0:
+            insort(self.small, num)
+
+        elif num > 100:
+            insort(self.large, num)
+
+        else:
+            self.freq[num] += 1
+
+
+    def getKth(self, k):
+        # k is 1-indexed
+
+        # Case 1: kth element is in small
+        if k <= len(self.small):
+            return self.small[k - 1]
+
+        # Skip all elements < 0
+        k -= len(self.small)
+
+        # Case 2: kth element is in [0, 100]
+        for num in range(101):
+            if k <= self.freq[num]:
+                return num
+
+            k -= self.freq[num]
+
+        # Case 3: kth element is in large
+        return self.large[k - 1]
+
 
     def findMedian(self):
-        """
-        :rtype: float
-        """
-        if (len(self.min_heap) + len(self.max_heap)) % 2 == 0:
-            return (self.min_heap[0] - self.max_heap[0]) / 2.0
-        return min(-self.max_heap[0] if self.max_heap else 1e9, self.min_heap[0] if self.min_heap else 1e9)
-        
 
+        if self.count % 2 == 1:
+            k = self.count // 2 + 1
+            return self.getKth(k)
 
+        k1 = self.count // 2
+        k2 = k1 + 1
+
+        return (self.getKth(k1) + self.getKth(k2)) / 2.0
 # Your MedianFinder object will be instantiated and called as such:
 # obj = MedianFinder()
 # obj.addNum(num)

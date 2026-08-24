@@ -18,6 +18,7 @@ class MinStack(object):
         else:
             self.stack.append(value)
 
+
     def pop(self):
         """
         :rtype: None
@@ -25,6 +26,9 @@ class MinStack(object):
         if self.stack[-1] < self.currMin:
             self.currMin = 2 * self.currMin - self.stack[-1]
         self.stack.pop()
+
+        if not self.stack:
+            self.currMin = None
         
 
     def top(self):
@@ -34,6 +38,7 @@ class MinStack(object):
         if self.stack[-1] < self.currMin:
             return self.currMin
         return self.stack[-1]
+        
 
     def getMin(self):
         """

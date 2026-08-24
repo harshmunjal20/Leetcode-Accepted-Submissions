@@ -9,7 +9,10 @@ class MinStack(object):
         :type value: int
         :rtype: None
         """
-        self.minimumList.append(min(value, self.minimumList[-1] if self.minimumList else 1e15))
+        if self.minimumList:
+            self.minimumList.append(min(value, self.minimumList[-1]))
+        else:
+            self.minimumList.append(value)
         self.stack.append(value)
         
 

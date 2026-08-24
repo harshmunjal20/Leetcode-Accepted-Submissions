@@ -7,11 +7,11 @@ class Solution(object):
         """
         def DFS(node, weight, parent, adj):
             countNodes = 0
+            if weight % signalSpeed == 0:
+                countNodes += 1
 
             for neighbourNode , neighbourWeight in adj[node]:
                 if neighbourNode != parent:
-                    if (weight + neighbourWeight) % signalSpeed == 0:
-                        countNodes += 1
                     countNodes += DFS(neighbourNode, weight + neighbourWeight, node, adj)
             
             return countNodes
@@ -30,11 +30,7 @@ class Solution(object):
             connectableNodes = 0
 
             for neighbourNode , weight in adj[node]:
-                currCount = 0
-                currCount += DFS(neighbourNode, weight, parent, adj)
-                if weight % signalSpeed == 0:
-                    currCount += 1
-                
+                currCount = DFS(neighbourNode, weight, parent, adj)
                 count[node] += currCount * connectableNodes
                 connectableNodes += currCount
 

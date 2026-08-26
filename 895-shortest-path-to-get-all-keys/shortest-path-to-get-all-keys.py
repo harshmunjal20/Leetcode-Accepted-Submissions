@@ -16,8 +16,8 @@ class Solution(object):
         totalKeys = 0
         visited = set()
 
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
+        for i in range(rows):
+            for j in range(cols):
                 if grid[i][j] == '@':
                     queue.append((i * cols + j, 0)) # third argument is keys
                     visited.add((i * cols + j, 0))

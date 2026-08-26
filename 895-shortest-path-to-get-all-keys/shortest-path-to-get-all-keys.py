@@ -9,6 +9,8 @@ class Solution(object):
         """
         xDir = [-1, 0, 1, 0]
         yDir = [0, 1, 0, -1]
+        rows = len(grid)
+        cols = len(grid[0])
         queue = deque()
         minMoves = 0
         totalKeys = 0
@@ -17,8 +19,8 @@ class Solution(object):
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == '@':
-                    queue.append((i, j, 0)) # third argument is keys
-                    visited.add((i, j, 0))
+                    queue.append((i * cols + j, 0)) # third argument is keys
+                    visited.add((i * cols + j, 0))
                 elif grid[i][j] >= 'a' and grid[i][j] <= 'z':
                     totalKeys += 1
 
@@ -28,7 +30,9 @@ class Solution(object):
             sz = len(queue)
 
             while sz > 0:
-                i, j, keys = queue.popleft()
+                decodedNum, keys = queue.popleft()
+                i = decodedNum / cols
+                j = decodedNum % cols
 
                 target_mask = (1 << totalKeys) - 1
 
@@ -39,7 +43,7 @@ class Solution(object):
                     x = xDir[index] + i
                     y = yDir[index] + j
 
-                    if x >= 0 and x < len(grid) and y >= 0 and y < len(grid[0]) and grid[x][y] != '#' and ((x, y, keys) not in visited):
+                    if x >= 0 and x < len(grid) and y >= 0 and y < len(grid[0]) and grid[x][y] != '#' and ((x * cols + y, keys) not in visited):
                         numKeys = keys
 
                         if grid[x][y] >= 'A' and grid[x][y] <= 'Z' and (keys & (1 << (ord(grid[x][y]) - ord('A')))) == 0:
@@ -47,8 +51,8 @@ class Solution(object):
                         elif grid[x][y] >= 'a' and grid[x][y] <= 'z':
                             numKeys = numKeys | (1 << (ord(grid[x][y]) - ord('a')))
                         
-                        visited.add((x, y, numKeys))
-                        queue.append((x, y, numKeys))
+                        visited.add((x * cols + y, numKeys))
+                        queue.append((x * cols + y, numKeys))
                 
                 sz -= 1
 

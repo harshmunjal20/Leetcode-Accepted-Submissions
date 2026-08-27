@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 class Solution(object):
     def maxFreq(self, s, maxLetters, minSize, maxSize):
         """
@@ -9,23 +7,23 @@ class Solution(object):
         :type maxSize: int
         :rtype: int
         """
-        freqIdxMap = defaultdict(int)
-        strOccurences = defaultdict(int)
+        freqCharsMap = defaultdict(int)
+        strFreqMap = defaultdict(int)
+        i, j = 0, 0
+        strLen = len(s)
 
-        i , j = 0, 0
+        while j < strLen:
+            freqCharsMap[s[j]] += 1   
 
-        while j < len(s):
-            freqIdxMap[s[j]] += 1
-
-            while (j - i + 1) > minSize or len(freqIdxMap) > maxLetters:
-                freqIdxMap[s[i]] -= 1
-                if (freqIdxMap[s[i]] == 0):
-                    freqIdxMap.pop(s[i])
+            while len(freqCharsMap) > maxLetters or j - i + 1 > minSize:
+                freqCharsMap[s[i]] -= 1
+                if freqCharsMap[s[i]] == 0:
+                    freqCharsMap.pop(s[i])
                 i += 1
-            
-            if (j - i + 1) == minSize and len(freqIdxMap) <= maxLetters:
-                strOccurences[s[i : j + 1]] += 1
-            
+
+            if len(freqCharsMap) <= maxLetters and j - i + 1 == minSize:
+                strFreqMap[s[i: j + 1]] += 1
+
             j += 1
-        
-        return max(strOccurences.values()) if strOccurences else 0
+
+        return max(strFreqMap.values()) if strFreqMap else 0

@@ -15,7 +15,7 @@ class Solution(object):
         :type k: int
         :rtype: List[int]
         """
-        parentsMap = defaultdict(lambda: TreeNode())
+        parentsMap = {}
 
         def DFS(root, parentNode):
             if not root:

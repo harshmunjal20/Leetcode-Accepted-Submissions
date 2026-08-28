@@ -1,63 +1,52 @@
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-from collections import deque
-
 class Solution(object):
     def distanceK(self, root, target, k):
-        """
-        :type root: TreeNode
-        :type target: TreeNode
-        :type k: int
-        :rtype: List[int]
-        """
-        parentsMap = {}
-        queue = deque()
-        queue.append(root)
-        parentsMap[root] = None
-
-        # make a map
-
-        while queue:
-            node = queue.popleft()
-
-            if node.left:
-                queue.append(node.left)
-                parentsMap[node.left] = node
-
-            if node.right:
-                queue.append(node.right)
-                parentsMap[node.right] = node
-        
         ans = []
-        currLevel = 0
-        visited = set()
-        queue.append(target)
-        visited.add(target)
 
-        while queue:
-            sz = len(queue)
+        def collectDown(node, distance):
+            if not node:
+                return
 
-            for _ in range(sz):
-                node = queue.popleft()
+            if distance == k:
+                ans.append(node.val)
+                return
 
-                if currLevel == k:
+            collectDown(node.left, distance + 1)
+            collectDown(node.right, distance + 1)
+
+        def dfs(node):
+            if not node:
+                return -1
+
+            # Found target
+            if node == target:
+                collectDown(node, 0)
+                return 0
+
+            leftDistance = dfs(node.left)
+
+            if leftDistance != -1:
+                distance = leftDistance + 1
+
+                if distance == k:
                     ans.append(node.val)
+                else:
+                    collectDown(node.right, distance + 1)
 
-                for neighbour in (parentsMap[node], node.left, node.right):
-                    if neighbour and neighbour not in visited:
-                        queue.append(neighbour)
-                        visited.add(neighbour)
+                return distance
 
+            rightDistance = dfs(node.right)
 
-            currLevel += 1
-            
-            if currLevel > k:
-                break
+            if rightDistance != -1:
+                distance = rightDistance + 1
 
+                if distance == k:
+                    ans.append(node.val)
+                else:
+                    collectDown(node.left, distance + 1)
+
+                return distance
+
+            return -1
+
+        dfs(root)
         return ans
-

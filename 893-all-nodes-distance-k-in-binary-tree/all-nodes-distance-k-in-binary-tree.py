@@ -5,7 +5,7 @@
 #         self.left = None
 #         self.right = None
 
-from collections import deque
+from collections import deque, defaultdict
 
 class Solution(object):
     def distanceK(self, root, target, k):
@@ -15,53 +15,53 @@ class Solution(object):
         :type k: int
         :rtype: List[int]
         """
-        # dfs(getting parents) and then visiting parents and nodes->left and right
-        parents = defaultdict(lambda : TreeNode())
+        parentsMap = defaultdict(lambda: TreeNode())
 
         def DFS(root, parentNode):
             if not root:
                 return
 
-            parents[root.val] = parentNode
-            
+            parentsMap[root.val] = parentNode
             DFS(root.left, root)
             DFS(root.right, root)
-
+        
         DFS(root, None)
         queue = deque()
         queue.append(target)
-        currLevel = 0
-        ans = []
         visited = set()
+        ans = []
+        currLevel = 0
 
         while queue:
             sz = len(queue)
 
             while sz > 0:
                 node = queue.popleft()
-                
+
                 sz -= 1
+
                 if node.val in visited:
                     continue
-                
+
                 visited.add(node.val)
 
                 if currLevel == k:
                     ans.append(node.val)
 
-                if parents[node.val]:
-                    queue.append(parents[node.val])
-                
+                if parentsMap[node.val]:
+                    queue.append(parentsMap[node.val])
+
                 if node.left:
                     queue.append(node.left)
 
                 if node.right:
                     queue.append(node.right)
 
-
             currLevel += 1
-
-            if currLevel > k: 
+            if currLevel > k:
                 break
 
+
         return ans
+
+

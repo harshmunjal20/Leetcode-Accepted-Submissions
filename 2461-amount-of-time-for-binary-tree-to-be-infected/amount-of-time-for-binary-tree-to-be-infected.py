@@ -5,8 +5,6 @@
 #         self.left = left
 #         self.right = right
 
-from collections import deque
-
 class Solution(object):
     def amountOfTime(self, root, start):
         """
@@ -20,23 +18,23 @@ class Solution(object):
             if not root:
                 return 0
 
-            val1 = DFS(root.left)    
-            val2 = DFS(root.right)
+            depthLeft = DFS(root.left)
+            depthRight = DFS(root.right)
 
+            if depthLeft < 0:
+                minTime[0] = max(minTime[0], depthRight + abs(depthLeft))
+                return depthLeft - 1
 
-            if val1 < 0:
-                minTime[0] = max(minTime[0], abs(val1) + val2)
-                return val1 - 1
-            
-            if val2 < 0:
-                minTime[0] = max(minTime[0], val1 + abs(val2))
-                return val2 - 1
-                
+            if depthRight < 0:
+                minTime[0] = max(minTime[0], depthLeft + abs(depthRight))
+                return depthRight - 1
+
             if root.val == start:
-                minTime[0] = max(minTime[0], max(val1, val2))
+                minTime[0] = max(minTime[0], max(depthLeft, depthRight))
                 return -1
 
-            return 1 + max(val1, val2)
+            return 1 + max(depthLeft, depthRight)
 
+            
         DFS(root)
         return minTime[0]

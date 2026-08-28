@@ -21,41 +21,32 @@ class Solution(object):
             if not root:
                 return
 
-            parentsMap[root.val] = parentNode
+            parentsMap[root] = parentNode
             DFS(root.left, root)
             DFS(root.right, root)
         
         DFS(root, None)
+        visited = set()
         queue = deque()
         queue.append(target)
-        visited = set()
+        visited.add(target)
         ans = []
         currLevel = 0
 
         while queue:
             sz = len(queue)
 
-            while sz > 0:
+            for _ in range(sz):
                 node = queue.popleft()
-
-                sz -= 1
-
-                if node.val in visited:
-                    continue
-
-                visited.add(node.val)
 
                 if currLevel == k:
                     ans.append(node.val)
 
-                if parentsMap[node.val]:
-                    queue.append(parentsMap[node.val])
+                for neighbour in (parentsMap[node], node.left, node.right):
+                    if neighbour and neighbour not in visited:
+                        visited.add(neighbour)
+                        queue.append(neighbour)
 
-                if node.left:
-                    queue.append(node.left)
-
-                if node.right:
-                    queue.append(node.right)
 
             currLevel += 1
             if currLevel > k:

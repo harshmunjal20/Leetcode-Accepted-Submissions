@@ -4,6 +4,7 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
 from collections import deque
 
 class Solution(object):
@@ -13,43 +14,29 @@ class Solution(object):
         :type start: int
         :rtype: int
         """
-        queue = deque()
-        queue.append(root)
-        parentsMap = {}
-        parentsMap[root] = None
-        startNode = None
+        minTime = [0]
 
-        while queue:
-            node = queue.popleft()
+        def DFS(root):
+            if not root:
+                return 0
 
-            if node.val == start:
-                startNode = node
+            val1 = DFS(root.left)    
+            val2 = DFS(root.right)
 
-            if node.left:
-                parentsMap[node.left] = node
-                queue.append(node.left)
 
-            if node.right:
-                parentsMap[node.right] = node
-                queue.append(node.right)
+            if val1 < 0:
+                minTime[0] = max(minTime[0], abs(val1) + val2)
+                return val1 - 1
+            
+            if val2 < 0:
+                minTime[0] = max(minTime[0], val1 + abs(val2))
+                return val2 - 1
+                
+            if root.val == start:
+                minTime[0] = max(minTime[0], max(val1, val2))
+                return -1
 
-        minTime = 0
-        visited = set()
-        queue.append(startNode)
-        visited.add(startNode)
+            return 1 + max(val1, val2)
 
-        while queue:
-            sz = len(queue)
-
-            for _ in range(sz):
-                node = queue.popleft()
-
-                for neighbour in (parentsMap[node], node.left, node.right):
-                    if neighbour and neighbour not in visited:
-                        queue.append(neighbour)
-                        visited.add(neighbour)
-
-            if queue:
-                minTime += 1
-
-        return minTime
+        DFS(root)
+        return minTime[0]

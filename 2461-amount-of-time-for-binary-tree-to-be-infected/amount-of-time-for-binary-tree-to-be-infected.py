@@ -4,8 +4,7 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
-from collections import defaultdict, deque
+from collections import deque
 
 class Solution(object):
     def amountOfTime(self, root, start):
@@ -14,26 +13,30 @@ class Solution(object):
         :type start: int
         :rtype: int
         """
-        parentsMap = {}
-        startNode = []
-
-        def DFS(root, parentNode):
-            if not root:
-                return
-            
-            if root.val == start:
-                startNode.append(root)
-
-            parentsMap[root] = parentNode
-            DFS(root.left, root)
-            DFS(root.right, root)
-
-        visited = set()
-        DFS(root, None)
         queue = deque()
-        queue.append(startNode[0])
-        visited.add(startNode[0])
-        totalMinutes = 0
+        queue.append(root)
+        parentsMap = {}
+        parentsMap[root] = None
+        startNode = None
+
+        while queue:
+            node = queue.popleft()
+
+            if node.val == start:
+                startNode = node
+
+            if node.left:
+                parentsMap[node.left] = node
+                queue.append(node.left)
+
+            if node.right:
+                parentsMap[node.right] = node
+                queue.append(node.right)
+
+        minTime = 0
+        visited = set()
+        queue.append(startNode)
+        visited.add(startNode)
 
         while queue:
             sz = len(queue)
@@ -47,6 +50,6 @@ class Solution(object):
                         visited.add(neighbour)
 
             if queue:
-                totalMinutes += 1
+                minTime += 1
 
-        return totalMinutes
+        return minTime

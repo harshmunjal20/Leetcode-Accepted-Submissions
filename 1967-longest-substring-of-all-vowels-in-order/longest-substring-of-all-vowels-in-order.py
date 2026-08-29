@@ -10,9 +10,9 @@ class Solution(object):
         prevChar = 'z'
 
         while j < len(word):
-            if ord(word[j]) > ord(prevChar):
+            if word[j] > prevChar:
                 runningUnique += 1
-            elif ord(word[j]) < ord(prevChar):
+            elif word[j] < prevChar:
                 runningUnique = 0
                 i = j
 

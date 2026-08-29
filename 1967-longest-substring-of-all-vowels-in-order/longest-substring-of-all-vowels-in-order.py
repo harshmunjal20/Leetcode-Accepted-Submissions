@@ -7,19 +7,19 @@ class Solution(object):
         runningUnique = 0
         maxLen = 0
         i , j = 0, 0
-        prevChar = 'z'
+        prevChar = 128
 
         while j < len(word):
-            if word[j] > prevChar:
+            if ord(word[j]) > prevChar:
                 runningUnique += 1
-            elif word[j] < prevChar:
+            elif ord(word[j]) < prevChar:
                 runningUnique = 0
                 i = j
 
             if runningUnique == 4:
                 maxLen = max(maxLen, j - i + 1)
 
-            prevChar = word[j]
+            prevChar = ord(word[j])
             j += 1
 
         return maxLen

@@ -4,9 +4,9 @@ class Solution(object):
         :type word: str
         :rtype: int
         """
-        runningUnique = 0
         maxLen = 0
-        i , j = 0, 0
+        i, j = 0, 0
+        runningUnique = 0
         prevChar = 128
 
         while j < len(word):

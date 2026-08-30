@@ -10,25 +10,25 @@ class Solution(object):
         :type root: Optional[TreeNode]
         :rtype: List[str]
         """
-        paths = []
         path = []
+        paths = []
 
         def DFS(root):
             if not root:
                 return
-
+            
             if not root.left and not root.right:
                 path.append(str(root.val))
                 paths.append("".join(path))
                 path.pop()
                 return
-
+            
             path.append(str(root.val))
             path.append('->')
             DFS(root.left)
             DFS(root.right)
             path.pop()
             path.pop()
-
+        
         DFS(root)
         return paths

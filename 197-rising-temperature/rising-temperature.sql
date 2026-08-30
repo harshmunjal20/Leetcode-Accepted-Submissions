@@ -1,2 +1,2 @@
 # Write your MySQL query statement below
-SELECT w2.ID FROM Weather w1 INNER JOIN Weather w2 ON w2.recordDate = DATE_ADD(w1.recordDate, INTERVAL 1 DAY) WHERE w2.temperature > w1.temperature
+SELECT (SELECT w2.id FROM Weather w2 WHERE w2.temperature > w1.temperature AND w2.recordDate = DATE_ADD(w1.recordDate, INTERVAL 1 DAY)) AS id FROM Weather w1 WHERE EXISTS (SELECT 1 FROM Weather w2 WHERE w2.temperature > w1.temperature AND w2.recordDate = DATE_ADD(w1.recordDate, INTERVAL 1 DAY))

@@ -1,2 +1,2 @@
 # Write your MySQL query statement below
-SELECT(SELECT DISTINCT Salary FROM Employee e1 WHERE 2 = (SELECT COUNT(DISTINCT salary) FROM Employee e2 WHERE e2.salary >= e1.salary)) AS SecondHighestSalary
+SELECT (SELECT Salary FROM (SELECT DISTINCT Salary, DENSE_RANK() OVER(ORDER BY Salary DESC) AS rnk FROM Employee) AS t WHERE t.rnk = 2) AS SecondHighestSalary

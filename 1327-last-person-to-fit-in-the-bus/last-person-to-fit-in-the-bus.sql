@@ -1,5 +1,8 @@
-WITH CumulativeTable AS (
-    SELECT person_name, SUM(Weight) OVER(ORDER BY turn) AS running_weight FROM Queue
-)
-
-SELECT person_name FROM CumulativeTable WHERE running_weight = (SELECT MAX(running_weight) FROM CumulativeTable WHERE running_weight <= 1000)
+SELECT q1.person_name
+FROM Queue q1
+INNER JOIN Queue q2 
+ON q1.turn >= q2.turn
+GROUP BY q1.turn
+HAVING SUM(q2.weight) <= 1000
+ORDER BY SUM(q2.weight) DESC
+LIMIT 1

@@ -1,2 +1,2 @@
 # Write your MySQL query statement below
-SELECT ROUND(SUM(I1.tiv_2016), 2) AS tiv_2016 FROM Insurance I1 WHERE (lat, lon) NOT IN (SELECT lat, lon FROM Insurance I2 WHERE I2.pid != I1.pid) AND I1.tiv_2015 IN (SELECT I2.tiv_2015 FROM Insurance I2 WHERE I2.pid != I1.pid)
+SELECT ROUND(SUM(tiv_2016), 2) AS tiv_2016 FROM Insurance I1 WHERE (lat, lon) NOT IN (SELECT lat, lon FROM Insurance I2 WHERE I2.pid != I1.pid) AND tiv_2015 IN (SELECT tiv_2015 FROM Insurance I2 WHERE I2.pid != I1.pid)

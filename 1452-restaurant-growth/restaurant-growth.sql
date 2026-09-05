@@ -1,10 +1,8 @@
 # Write your MySQL query statement below
-WITH CTE AS (
-    SELECT customer_id, visited_on,
-    SUM(amount) OVER(ORDER BY visited_on RANGE BETWEEN INTERVAL 6 day PRECEDING AND CURRENT ROW) AS amount,
-    ROUND(SUM(amount) OVER(ORDER BY visited_on RANGE BETWEEN INTERVAL 6 DAY PRECEDING AND CURRENT ROW) / 7, 2) AS average_amount
-    FROM Customer
-)
-
-SELECT DISTINCT visited_on, amount, average_amount FROM CTE
-WHERE DATEDIFF(visited_on, (SELECT MIN(visited_on) FROM Customer)) >= 6
+SELECT DISTINCT  c1.visited_on, 
+SUM(c2.amount) AS amount, 
+ROUND(SUM(c2.amount) / 7, 2) AS average_amount
+FROM Customer c1
+JOIN Customer c2
+WHERE DATEDIFF(c1.visited_on, c2.visited_on) BETWEEN 0 AND 6 AND DATEDIFF(c1.visited_on, (SELECT MIN(visited_on) FROM Customer)) >= 6
+GROUP BY c1.visited_on, c1.customer_id

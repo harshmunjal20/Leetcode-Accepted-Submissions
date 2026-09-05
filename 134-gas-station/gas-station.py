@@ -6,9 +6,9 @@ class Solution(object):
         :rtype: int
         """
         totalGas, totalCost = sum(gas), sum(cost)
-        runningGas, startIdx = 0, 0
+        startIdx, runningGas = 0, 0
 
-        if totalGas < totalCost:
+        if totalGas - totalCost < 0:
             return -1
 
         for idx in range(len(gas)):

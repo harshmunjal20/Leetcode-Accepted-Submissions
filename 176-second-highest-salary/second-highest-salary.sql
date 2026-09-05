@@ -9,8 +9,10 @@
 -- FROM CTE 
 -- WHERE currRank = 2
 
-SELECT MAX(salary) AS SecondHighestSalary
-FROM Employee
-WHERE salary < (
-    SELECT MAX(Salary) FROM Employee
-)
+SELECT  (SELECT DISTINCT salary AS SecondHighestSalary
+FROM Employee e1
+WHERE 1 = (
+    SELECT COUNT(DISTINCT Salary) 
+    FROM Employee e2
+    WHERE e2.salary > e1.salary
+)) AS SecondHighestSalary

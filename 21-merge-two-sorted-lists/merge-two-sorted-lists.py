@@ -17,22 +17,17 @@ class Solution(object):
 
         while head1 and head2:
             if head1.val < head2.val:
-                newHead.next = head1
+                dummy.next = head1
                 head1 = head1.next
             else:
-                newHead.next = head2
+                dummy.next = head2
                 head2 = head2.next
             
-            newHead = newHead.next
+            dummy = dummy.next
         
-        while head1:
-            newHead.next = head1
-            newHead = newHead.next
-            head1 = head1.next
+        if head1:
+            dummy.next = head1
+        else:
+            dummy.next = head2
         
-        while head2:
-            newHead.next = head2
-            newHead = newHead.next
-            head2 = head2.next
-
-        return dummy.next
+        return newHead.next

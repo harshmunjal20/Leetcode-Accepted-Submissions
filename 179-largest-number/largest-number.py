@@ -22,5 +22,4 @@ class Solution(object):
         strs.sort(key = cmp_to_key(compare))
 
         ansStr = "".join(strs)
-
         return ansStr if ansStr[0] != '0' else "0"

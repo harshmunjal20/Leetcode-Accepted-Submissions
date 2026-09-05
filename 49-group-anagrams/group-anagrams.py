@@ -1,19 +1,17 @@
-from collections import defaultdict
-
 class Solution(object):
     def groupAnagrams(self, strs):
         """
         :type strs: List[str]
         :rtype: List[List[str]]
         """
-        hashMap = defaultdict(list)
-        ans = []
+        hashMap = {}
 
         for currStr in strs:
             sortedStr = ''.join(sorted(currStr))
-            hashMap[sortedStr].append(currStr)
 
-        for value in hashMap.values():
-            ans.append(value)
+            if sortedStr not in hashMap:
+                hashMap[sortedStr] = [currStr]
+            else:
+                hashMap[sortedStr].append(currStr)
 
-        return ans
+        return list(hashMap.values())

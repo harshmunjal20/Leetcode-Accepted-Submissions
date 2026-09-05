@@ -4,7 +4,7 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         """
-        buyPrice , profit = 1e10, 0
+        buyPrice, profit = 1e10, 0
 
         for currPrice in prices:
             if currPrice < buyPrice:

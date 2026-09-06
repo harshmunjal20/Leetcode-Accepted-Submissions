@@ -5,9 +5,8 @@ class Solution(object):
         :type costs: List[int]
         :rtype: int
         """
-        # make a dp of max days
         maxDay = days[len(days) - 1]
-        dp = [None] * (maxDay + 1)
+        dp = [0] * (maxDay + 1)
         dp[0] = 0
         daysSet = set(days)
 
@@ -15,7 +14,7 @@ class Solution(object):
             if currDay not in daysSet:
                 dp[currDay] = dp[currDay - 1]
                 continue
-
+            
             weekStore = 0
             monthStore = 0
 
@@ -24,7 +23,7 @@ class Solution(object):
             
             if currDay - 30 >= 0:
                 monthStore = dp[currDay - 30]
-            
-            dp[currDay] = min(costs[0] + dp[currDay - 1], costs[1] + weekStore, costs[2] + monthStore)
 
+            dp[currDay] = min(costs[0] + dp[currDay - 1], costs[1] + weekStore, costs[2] + monthStore)
+        
         return dp[maxDay]

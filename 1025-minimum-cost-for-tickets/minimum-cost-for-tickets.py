@@ -17,13 +17,13 @@ class Solution(object):
                 return dp[currIdx][currPass]
             
             currDay = days[currIdx]
-            oneDayPassCost = costs[0] + minCostTicketsUtil(bisect.bisect_left(days, currDay + 1), 0)
-            oneWeekPassCost = costs[1] + minCostTicketsUtil(bisect.bisect_left(days, currDay + 7), 1)
-            oneMonthPassCost = costs[2] + minCostTicketsUtil(bisect.bisect_left(days, currDay + 30), 2)
+            oneDayCost = costs[0] + minCostTicketsUtil(bisect.bisect_left(days, currDay + 1), 0)
+            oneWeekCost = costs[1] + minCostTicketsUtil(bisect.bisect_left(days, currDay + 7), 1)
+            oneMonthCost = costs[2] + minCostTicketsUtil(bisect.bisect_left(days, currDay + 30), 2)
 
-            dp[currIdx][currPass] = min(oneDayPassCost, oneWeekPassCost, oneMonthPassCost)
+            dp[currIdx][currPass] = min(oneDayCost, oneWeekCost, oneMonthCost)
             return dp[currIdx][currPass]
 
         currIdx = 0
-
-        return minCostTicketsUtil(currIdx, 0)
+        currPass = 0
+        return minCostTicketsUtil(currIdx, currPass)

@@ -5,16 +5,26 @@ class Solution(object):
         :type costs: List[int]
         :rtype: int
         """
-        dp = [[1e10 for _ in range(3)] for _ in range(len(days) + 1)]
+        # make a dp of max days
+        maxDay = days[len(days) - 1]
+        dp = [None] * (maxDay + 1)
+        dp[0] = 0
+        daysSet = set(days)
 
-        dp[len(days)][0] = dp[len(days)][1] = dp[len(days)][2] = 0
-        idx = len(days) - 1
+        for currDay in range(1, maxDay + 1):
+            if currDay not in daysSet:
+                dp[currDay] = dp[currDay - 1]
+                continue
 
-        while idx >= 0:
-            currDay = days[idx]
+            weekStore = 0
+            monthStore = 0
 
-            dp[idx][0] = dp[idx][1] = dp[idx][2] = min(costs[0] + dp[bisect.bisect_left(days, currDay + 1)][0], costs[1] + dp[bisect.bisect_left(days, currDay + 7)][1], costs[2] + dp[bisect.bisect_left(days, currDay + 30)][2])
+            if currDay - 7 >= 0:
+                weekStore = dp[currDay - 7]
+            
+            if currDay - 30 >= 0:
+                monthStore = dp[currDay - 30]
+            
+            dp[currDay] = min(costs[0] + dp[currDay - 1], costs[1] + weekStore, costs[2] + monthStore)
 
-            idx -= 1
-
-        return dp[0][0]
+        return dp[maxDay]

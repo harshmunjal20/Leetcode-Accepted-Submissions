@@ -4,22 +4,26 @@ class Solution(object):
         :type seats: List[int]
         :rtype: int
         """
-        i, j, k = 0, 0, 0
+        # bad approach : creating a next array
+        next = []
+        idx = len(seats) - 1
+        nextIdx = 1e10
+
+        while idx >= 0:
+            if seats[idx] == 1:
+                nextIdx = idx
+
+            next.append(nextIdx)
+            idx -= 1
+
+        next.reverse()
+        prevIdx = -1e10
         maxLen = 0
-        totalSeats = len(seats)
 
-        while k < totalSeats:
-            while j < totalSeats and seats[j] == 1:
-                j += 1
-
-            i = j - 1
-            k = j + 1
-
-            while k < totalSeats and seats[k] == 0:
-                k += 1
-
-            while j < totalSeats and j < k:
-                maxLen = max(maxLen, min(abs(i - j) if i >= 0 else 1e10, abs(k - j) if k < totalSeats else 1e10))
-                j += 1
-
+        for idx in range(len(seats)):
+            if seats[idx] == 1:
+                prevIdx = idx
+            elif seats[idx] == 0:
+                maxLen = max(maxLen, min(idx - prevIdx, next[idx] - idx))
+        
         return maxLen

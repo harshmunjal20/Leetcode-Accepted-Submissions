@@ -4,9 +4,10 @@ class Solution(object):
         :type seats: List[int]
         :rtype: int
         """
-        # bad approach : creating a next array
+        # first approach again
+        totalSeats = len(seats)
+        idx = totalSeats - 1
         next = []
-        idx = len(seats) - 1
         nextIdx = 1e10
 
         while idx >= 0:
@@ -19,11 +20,14 @@ class Solution(object):
         next.reverse()
         prevIdx = -1e10
         maxLen = 0
+        idx = 0
 
-        for idx in range(len(seats)):
+        while idx < totalSeats:
             if seats[idx] == 1:
                 prevIdx = idx
             elif seats[idx] == 0:
                 maxLen = max(maxLen, min(idx - prevIdx, next[idx] - idx))
-        
+
+            idx += 1
+
         return maxLen

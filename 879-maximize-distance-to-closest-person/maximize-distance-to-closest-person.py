@@ -4,23 +4,20 @@ class Solution(object):
         :type seats: List[int]
         :rtype: int
         """
-        i, j, k = 0, 0, 0
-        totalSeats = len(seats)
-        idx = 0
         maxLen = 0
+        maxLen = max(maxLen, seats.index(1))
+        seats.reverse()
+        prevOneIdx = seats.index(1)
+        maxLen = max(maxLen, prevOneIdx)
+        totalSeats = len(seats)
+        idx = prevOneIdx
 
-        while k < totalSeats:
-            while j < totalSeats and seats[j] == 1:
-                j += 1
+        while idx < totalSeats:
+            if seats[idx] == 1:
+                groupSize = (idx - prevOneIdx) / 2
+                maxLen = max(maxLen, groupSize)
+                prevOneIdx = idx
+            
+            idx += 1
 
-            i = j - 1
-            k = j + 1
-
-            while k < totalSeats and seats[k] == 0:
-                k += 1
-
-            while j < totalSeats and j < k:
-                maxLen = max(maxLen, min(abs(i - j) if i >= 0 else 1e10, abs(k - j) if k < totalSeats else 1e10))
-                j += 1
-                
         return maxLen

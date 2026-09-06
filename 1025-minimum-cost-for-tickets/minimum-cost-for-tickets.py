@@ -9,6 +9,20 @@ class Solution(object):
         """
         dp = [[-1 for _ in range(3)] for _ in range(len(days))]
 
+        def lower_bound(days, target):
+            low = 0
+            high = len(days) - 1
+
+            while low <= high:
+                mid = low + (high - low) / 2
+
+                if days[mid] >= target:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+            
+            return low
+
         def minCostTicketsUtil(currIdx, currPass):
             if currIdx >= len(days):
                 return 0
@@ -17,9 +31,9 @@ class Solution(object):
                 return dp[currIdx][currPass]
             
             currDay = days[currIdx]
-            oneDayCost = costs[0] + minCostTicketsUtil(bisect.bisect_left(days, currDay + 1), 0)
-            oneWeekCost = costs[1] + minCostTicketsUtil(bisect.bisect_left(days, currDay + 7), 1)
-            oneMonthCost = costs[2] + minCostTicketsUtil(bisect.bisect_left(days, currDay + 30), 2)
+            oneDayCost = costs[0] + minCostTicketsUtil(lower_bound(days, currDay + 1), 0)
+            oneWeekCost = costs[1] + minCostTicketsUtil(lower_bound(days, currDay + 7), 1)
+            oneMonthCost = costs[2] + minCostTicketsUtil(lower_bound(days, currDay + 30), 2)
 
             dp[currIdx][currPass] = min(oneDayCost, oneWeekCost, oneMonthCost)
             return dp[currIdx][currPass]

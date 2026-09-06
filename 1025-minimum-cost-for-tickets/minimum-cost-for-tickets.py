@@ -7,37 +7,16 @@ class Solution(object):
         :type costs: List[int]
         :rtype: int
         """
-        dp = [[-1 for _ in range(3)] for _ in range(len(days))]
+        dp = [[1e10 for _ in range(3)] for _ in range(len(days) + 1)]
+        idx = len(days) - 1
 
-        def lower_bound(days, target):
-            low = 0
-            high = len(days) - 1
+        dp[len(days)][0] = dp[len(days)][1] = dp[len(days)][2] = 0
+        
+        while idx >= 0:
+            currDay = days[idx]
 
-            while low <= high:
-                mid = low + (high - low) / 2
+            dp[idx][0] = dp[idx][1] = dp[idx][2] = min(costs[0] + dp[bisect.bisect_left(days, currDay + 1)][0], costs[1] + dp[bisect.bisect_left(days, currDay + 7)][1], costs[2] + dp[bisect.bisect_left(days, currDay + 30)][2])
 
-                if days[mid] >= target:
-                    high = mid - 1
-                else:
-                    low = mid + 1
-            
-            return low
+            idx -= 1
 
-        def minCostTicketsUtil(currIdx, currPass):
-            if currIdx >= len(days):
-                return 0
-            
-            if dp[currIdx][currPass] != -1:
-                return dp[currIdx][currPass]
-            
-            currDay = days[currIdx]
-            oneDayCost = costs[0] + minCostTicketsUtil(lower_bound(days, currDay + 1), 0)
-            oneWeekCost = costs[1] + minCostTicketsUtil(lower_bound(days, currDay + 7), 1)
-            oneMonthCost = costs[2] + minCostTicketsUtil(lower_bound(days, currDay + 30), 2)
-
-            dp[currIdx][currPass] = min(oneDayCost, oneWeekCost, oneMonthCost)
-            return dp[currIdx][currPass]
-
-        currIdx = 0
-        currPass = 0
-        return minCostTicketsUtil(currIdx, currPass)
+        return dp[0][0]

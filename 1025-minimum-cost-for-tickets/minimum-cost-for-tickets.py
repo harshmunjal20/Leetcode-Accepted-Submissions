@@ -1,5 +1,3 @@
-import bisect
-
 class Solution(object):
     def mincostTickets(self, days, costs):
         """
@@ -8,10 +6,10 @@ class Solution(object):
         :rtype: int
         """
         dp = [[1e10 for _ in range(3)] for _ in range(len(days) + 1)]
-        idx = len(days) - 1
 
         dp[len(days)][0] = dp[len(days)][1] = dp[len(days)][2] = 0
-        
+        idx = len(days) - 1
+
         while idx >= 0:
             currDay = days[idx]
 

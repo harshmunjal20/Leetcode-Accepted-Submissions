@@ -5,7 +5,7 @@ class Solution(object):
         :rtype: int
         """
         i, j, k = 0, 0, 0
-        maxDist = 0
+        maxLen = 0
         totalSeats = len(seats)
 
         while k < totalSeats:
@@ -19,8 +19,7 @@ class Solution(object):
                 k += 1
 
             while j < totalSeats and j < k:
-                maxDist = max(maxDist, min(abs(i - j) if i >= 0 else 1e10, (abs(k - j) if k < totalSeats else 1e10)))
+                maxLen = max(maxLen, min(abs(i - j) if i >= 0 else 1e10, abs(k - j) if k < totalSeats else 1e10))
                 j += 1
 
-
-        return maxDist
+        return maxLen

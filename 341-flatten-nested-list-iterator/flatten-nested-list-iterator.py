@@ -24,6 +24,12 @@
 #        """
 
 class NestedIterator(object):
+    def check(self):
+        while self.stack and not self.stack[-1].isInteger():
+            topElem = self.stack.pop()
+
+            for obj in reversed(topElem.getList()):
+                self.stack.append(obj)
 
     def __init__(self, nestedList):
         """
@@ -31,31 +37,22 @@ class NestedIterator(object):
         :type nestedList: List[NestedInteger]
         """
         self.stack = nestedList[::-1]
+        self.check()
         
 
     def next(self):
         """
         :rtype: int
         """
-        return self.stack.pop().getInteger()
+        value = self.stack.pop().getInteger()
+        self.check()
+        return value
 
     def hasNext(self):
         """
         :rtype: bool
         """
-        while self.stack:
-            topElem = self.stack[-1]
-
-            if topElem.isInteger():
-                return True
-
-            self.stack.pop()
-
-            for obj in reversed(topElem.getList()):
-                self.stack.append(obj)
-            
-        return False
-
+        return len(self.stack) > 0
 
 # Your NestedIterator object will be instantiated and called as such:
 # i, v = NestedIterator(nestedList), []

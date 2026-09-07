@@ -7,7 +7,7 @@ class Solution(object):
         """
 
         left = 1
-        right = max(piles)
+        right = int(1e9)
 
         while left <= right:
             mid = left + (right - left) / 2
@@ -15,7 +15,7 @@ class Solution(object):
             currHours = 0
 
             for bananas in piles:
-                currHours += (bananas / mid + (1 if bananas % mid != 0 else 0))
+                currHours += (bananas + mid - 1) / mid
 
             if currHours <= h:
                 right = mid - 1

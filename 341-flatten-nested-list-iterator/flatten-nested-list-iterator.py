@@ -29,9 +29,9 @@ class NestedIterator(object):
         if nestedList.isInteger():
             self.stack.append(nestedList.getInteger())
             return
-        
-        for childObj in nestedList.getList():
-            self.DFS(childObj)
+
+        for obj in nestedList.getList():
+            self.DFS(obj)
 
     def __init__(self, nestedList):
         """
@@ -42,8 +42,9 @@ class NestedIterator(object):
 
         for obj in nestedList:
             self.DFS(obj)
-
+        
         self.stack.reverse()
+        
 
     def next(self):
         """

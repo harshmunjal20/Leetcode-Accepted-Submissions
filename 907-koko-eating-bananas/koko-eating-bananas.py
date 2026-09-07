@@ -7,7 +7,7 @@ class Solution(object):
         """
 
         left = 1
-        right = int(1e9)
+        right = max(piles)
 
         while left <= right:
             mid = left + (right - left) / 2

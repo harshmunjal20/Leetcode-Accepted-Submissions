@@ -24,37 +24,38 @@
 #        """
 
 class NestedIterator(object):
-    def flatten(self, nestedList):
-        for obj in nestedList:
-            if obj.isInteger():
-                self.arr.append(obj.getInteger())
-            else:
-                self.flatten(obj.getList())
 
     def __init__(self, nestedList):
         """
         Initialize your data structure here.
         :type nestedList: List[NestedInteger]
         """
-        self.arr = []
-        self.idx = 0
-        self.flatten(nestedList)
+        self.stack = nestedList[::-1]
         
 
     def next(self):
         """
         :rtype: int
         """
-        ans = self.arr[self.idx]
-        self.idx += 1
-        return ans
-        
+        return self.stack.pop().getInteger()
 
     def hasNext(self):
         """
         :rtype: bool
         """
-        return self.idx < len(self.arr)
+        while self.stack:
+            topElem = self.stack[-1]
+
+            if topElem.isInteger():
+                return True
+
+            self.stack.pop()
+
+            for obj in reversed(topElem.getList()):
+                self.stack.append(obj)
+            
+        return False
+
 
 # Your NestedIterator object will be instantiated and called as such:
 # i, v = NestedIterator(nestedList), []

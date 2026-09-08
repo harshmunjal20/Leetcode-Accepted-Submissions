@@ -22,5 +22,5 @@ class Solution(object):
             
             if prevMinIdx > prevInvalidIdx and prevMaxIdx > prevInvalidIdx:
                 count += min(prevMinIdx, prevMaxIdx) - prevInvalidIdx
-        
+
         return count

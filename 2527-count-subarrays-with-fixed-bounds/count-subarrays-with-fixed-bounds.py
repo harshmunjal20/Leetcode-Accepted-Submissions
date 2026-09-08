@@ -12,13 +12,14 @@ class Solution(object):
         count = 0
 
         for idx in range(len(nums)):
-            if nums[idx] == minK :
+            if nums[idx] == minK:
                 lastMinIdx = idx
             if nums[idx] == maxK:
                 lastMaxIdx = idx
             elif minK > nums[idx] or nums[idx] > maxK:
                 prevInvalidIdx = idx
             
-            count += max(0, min(lastMinIdx, lastMaxIdx) - prevInvalidIdx)
+            if lastMinIdx > prevInvalidIdx and lastMaxIdx > prevInvalidIdx:
+                count += min(lastMinIdx, lastMaxIdx) - prevInvalidIdx
 
         return count

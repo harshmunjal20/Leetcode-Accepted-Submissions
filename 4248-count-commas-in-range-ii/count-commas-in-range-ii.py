@@ -4,12 +4,12 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        ans = 0
         multiplicationFactor = 1000
-        
+        ans = 0
+
         while multiplicationFactor <= n:
             count = n + 1 - multiplicationFactor
             ans += count
             multiplicationFactor *= 1000
-
+        
         return ans

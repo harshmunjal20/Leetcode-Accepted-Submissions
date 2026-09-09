@@ -8,26 +8,16 @@ class Solution(object):
         if len(s) < len(t):
             return 0
 
-        dp = [[-1 for _ in range(len(t) + 1)] for _ in range(len(s) + 1)]
+        dp = [[0 for _ in range(len(t) + 1)] for _ in range(len(s) + 1)]
 
-        def calculateSubsequences(idxS, idxT):
-            if idxT == len(t):
-                return 1
+        for idxS in range(len(s) + 1):
+            dp[idxS][len(t)] = 1
 
-            if idxS == len(s):
-                return 0
+        for idxS in range(len(s) - 1 , -1, -1):
+            for idxT in range(len(t) - 1, -1, -1):
+                if s[idxS] == t[idxT]:
+                    dp[idxS][idxT] = dp[idxS + 1][idxT + 1] + dp[idxS + 1][idxT]
+                else:
+                    dp[idxS][idxT] = dp[idxS + 1][idxT]
 
-            if dp[idxS][idxT] != -1:
-                return dp[idxS][idxT]
-
-            count = 0
-
-            if s[idxS] == t[idxT]:
-                count += calculateSubsequences(idxS + 1, idxT + 1)
-            
-            count += calculateSubsequences(idxS + 1, idxT)
-            dp[idxS][idxT] = count
-            return count
-
-        idxS , idxT = 0, 0
-        return calculateSubsequences(idxS, idxT)
+        return dp[0][0]

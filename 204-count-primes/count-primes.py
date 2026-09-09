@@ -1,15 +1,36 @@
-from math import isqrt
-
 class Solution(object):
+    mx = int(5e6 + 1)
+
+    primes = [True] * mx
+    primes[0], primes[1] = False, False
+    num = 2
+
+    while num * num < mx:
+        if primes[num]:
+            currNum = num * num
+
+            while currNum < mx:
+                primes[currNum] = False
+                currNum += num
+
+        num += 1
+
+    prefixSumArr = []
+    currSum = 0
+
+    for isPrimeNum in primes:
+        if isPrimeNum:
+            currSum += 1
+        
+        prefixSumArr.append(currSum)
+
+        
     def countPrimes(self, n):
-        if n <= 2:
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n < 2:
             return 0
 
-        dp = bytearray(b'\x01') * n
-        dp[0] = dp[1] = 0
-
-        for p in range(2, isqrt(n) + 1):
-            if dp[p]:
-                dp[p * p:n:p] = b'\x00' * (((n - 1 - p * p) // p) + 1)
-
-        return sum(dp)
+        return self.prefixSumArr[n - 1]

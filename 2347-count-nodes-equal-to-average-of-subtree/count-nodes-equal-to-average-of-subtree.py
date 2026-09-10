@@ -11,14 +11,14 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
-        count = [0]
+        self.ans = 0
 
         def DFS(root):
             if not root:
                 return (0, 0)
             
             if not root.left and not root.right:
-                count[0] += 1
+                self.ans += 1
                 return (root.val, 1)
             
             leftValCountPair = DFS(root.left)
@@ -28,8 +28,8 @@ class Solution(object):
             nodesCount = 1 + leftValCountPair[1] + rightValCountPair[1]
             average = sum / nodesCount
 
-            count[0] += int(average == root.val)
+            self.ans += int(average == root.val)
             return (sum, nodesCount)
 
         DFS(root)
-        return count[0]
+        return self.ans

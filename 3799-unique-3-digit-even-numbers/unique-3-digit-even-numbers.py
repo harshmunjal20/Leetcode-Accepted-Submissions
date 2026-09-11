@@ -1,12 +1,14 @@
-from collections import Counter
-
 class Solution(object):
     def totalNumbers(self, digits):
         """
         :type digits: List[int]
         :rtype: int
         """
-        freqMap = Counter(digits)
+        freqMap = [0] * 10
+
+        for digit in digits:
+            freqMap[digit] += 1
+
         count = 0
 
         for firstDigit in range(1, 10):

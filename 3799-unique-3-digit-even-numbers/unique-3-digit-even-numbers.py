@@ -1,29 +1,44 @@
+from collections import Counter
+
 class Solution(object):
     def totalNumbers(self, digits):
         """
         :type digits: List[int]
         :rtype: int
         """
-        used = [False] * 1000
-        ans = 0
-        totalDigits = len(digits)
+        used = set()
+        freqMap = Counter(digits)
+        count = 0
 
-        for i in range(len(digits)):
-            if digits[i] == 0:
+        for firstDigit in range(1, 10):
+            if freqMap[firstDigit] == 0:
                 continue
-            
-            for j in range(len(digits)):
-                if j == i:
-                    continue
 
-                for k in range(len(digits)):
-                    if k == i or k == j or digits[k] % 2 != 0:
+            freqMap[firstDigit] -= 1
+
+            for secondDigit in range(0, 10):
+                if freqMap[secondDigit] == 0:
+                    continue
+                
+                freqMap[secondDigit] -= 1
+
+                for thirdDigit in range(0, 10, 2):
+                    if freqMap[thirdDigit] == 0:
                         continue
 
-                    number = digits[i] * 100 + digits[j] * 10 + digits[k]
+                    freqMap[thirdDigit] -= 1
+                    number = firstDigit * 100 + secondDigit * 10 + thirdDigit
+                    freqMap[thirdDigit] += 1
                     
-                    if not used[number]:
-                        used[number] = True
-                        ans += 1
+                    if number in used:
+                        continue
 
-        return ans
+                    used.add(number)
+                    count += 1
+                
+                freqMap[secondDigit] += 1
+
+            freqMap[firstDigit] += 1
+
+        return count
+                    

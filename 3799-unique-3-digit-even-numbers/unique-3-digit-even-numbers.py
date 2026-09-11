@@ -6,7 +6,7 @@ class Solution(object):
         :type digits: List[int]
         :rtype: int
         """
-        used = set()
+        used = [False] * 1000
         freqMap = Counter(digits)
         count = 0
 
@@ -28,13 +28,13 @@ class Solution(object):
 
                     freqMap[thirdDigit] -= 1
                     number = firstDigit * 100 + secondDigit * 10 + thirdDigit
-                    freqMap[thirdDigit] += 1
                     
-                    if number in used:
+                    if used[number]:
                         continue
 
-                    used.add(number)
+                    used[number] = True
                     count += 1
+                    freqMap[thirdDigit] += 1
                 
                 freqMap[secondDigit] += 1
 

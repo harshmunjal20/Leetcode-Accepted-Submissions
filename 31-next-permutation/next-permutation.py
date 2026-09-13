@@ -8,12 +8,13 @@ class Solution:
         while idx >= 0:
             if nums[idx] < nums[idx + 1]:
                 tempIdx = idx + 1
-                while tempIdx < len(nums) and nums[tempIdx] > nums[idx]:
+
+                while tempIdx < len(nums) and nums[idx] < nums[tempIdx]:
                     tempIdx += 1
                 
                 nums[tempIdx - 1], nums[idx] = nums[idx], nums[tempIdx - 1]
                 break
 
             idx -= 1
-        
-        nums[idx + 1 : len(nums)] =  nums[idx + 1 : len(nums)][::-1]
+
+        nums[idx + 1 : len(nums)] = nums[idx + 1: len(nums)][::-1]

@@ -11,10 +11,11 @@ class Solution:
 
                 while tempIdx < len(nums) and nums[idx] < nums[tempIdx]:
                     tempIdx += 1
-                
-                nums[tempIdx - 1], nums[idx] = nums[idx], nums[tempIdx - 1]
+
+                nums[tempIdx - 1] , nums[idx] = nums[idx], nums[tempIdx - 1]
                 break
 
             idx -= 1
 
-        nums[idx + 1 : len(nums)] = nums[idx + 1: len(nums)][::-1]
+        nums[idx + 1: len(nums)] = nums[idx + 1 : len(nums)][::-1]
+        

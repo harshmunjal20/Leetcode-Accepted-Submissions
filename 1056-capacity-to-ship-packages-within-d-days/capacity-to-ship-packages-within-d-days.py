@@ -1,7 +1,7 @@
 class Solution:
     def shipWithinDays(self, weights: list[int], days: int) -> int:
 
-        def canShipPackages(mid) -> int:
+        def canShipPackages(mid: int) -> int:
             numDays = 1
             currSum = 0
 

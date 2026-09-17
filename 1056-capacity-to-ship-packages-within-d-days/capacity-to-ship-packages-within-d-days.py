@@ -1,7 +1,7 @@
 class Solution:
     def shipWithinDays(self, weights: list[int], days: int) -> int:
 
-        def canShipPackages(mid: int) -> int:
+        def canShipPackages(mid: int, weights: list[int]) -> int:
             numDays = 1
             currSum = 0
 
@@ -24,7 +24,7 @@ class Solution:
             mid = low + (high - low) // 2
             print(mid)
 
-            if canShipPackages(mid):
+            if canShipPackages(mid, weights):
                 high = mid - 1
             else:
                 low = mid + 1

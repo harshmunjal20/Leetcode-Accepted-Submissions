@@ -8,9 +8,10 @@ class Solution:
         i = 0
         currSum = 0
         maxSize = -1e9
+        n = len(nums)
         toFindSum = totalSum - x
 
-        for j in range(len(nums)):
+        for j in range(n):
             currSum += nums[j]
 
             while currSum > toFindSum:
@@ -25,4 +26,4 @@ class Solution:
         if maxSize == -1e9:
             return -1
         
-        return len(nums) - maxSize
+        return n - maxSize

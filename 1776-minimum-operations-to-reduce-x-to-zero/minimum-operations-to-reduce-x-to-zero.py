@@ -5,12 +5,12 @@ class Solution:
         if x > totalSum:
             return -1
 
-        i, j = 0, 0
+        i = 0
         currSum = 0
         maxSize = -1e9
         toFindSum = totalSum - x
 
-        while j < len(nums):
+        for j in range(len(nums)):
             currSum += nums[j]
 
             while currSum > toFindSum:

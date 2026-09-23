@@ -1,31 +1,24 @@
 class Solution:
     def minOperations(self, nums: list[int], x: int) -> int:
-        totalSum = sum(nums)
+        i, j = 0, 0
+        sz = len(nums)
+        currSum = sum(nums)
+        minSize = 1e10
 
-        if x > totalSum:
+        if x > currSum:
             return -1
-        elif x == totalSum:
-            return len(nums)
+        elif currSum == x:
+            return sz
+        
+        for j in range(sz):
+            currSum -= nums[j]
 
-        i = 0
-        currSum = 0
-        maxSize = -1e9
-        n = len(nums)
-        toFindSum = totalSum - x
-
-        for j in range(n):
-            currSum += nums[j]
-
-            while currSum > toFindSum:
-                currSum -= nums[i]
+            while currSum < x:
+                currSum += nums[i]
                 i += 1
             
-            if currSum == toFindSum:
-                maxSize = max(maxSize, j - i + 1)
+            if currSum == x:
+                minSize = min(minSize, sz - 1 - j + i)
 
-            j += 1
-        
-        if maxSize == -1e9:
-            return -1
-        
-        return n - maxSize
+        return minSize if minSize != 1e10 else -1
+

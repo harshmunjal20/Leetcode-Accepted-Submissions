@@ -4,6 +4,8 @@ class Solution:
 
         if x > totalSum:
             return -1
+        elif x == totalSum:
+            return len(nums)
 
         i = 0
         currSum = 0

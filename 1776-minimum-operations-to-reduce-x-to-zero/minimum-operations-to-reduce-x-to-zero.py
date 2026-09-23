@@ -4,11 +4,11 @@ class Solution:
 
         if x > totalSum:
             return -1
-        
-        toFindSum = totalSum - x
+
         i, j = 0, 0
-        maxSize = -1e9
         currSum = 0
+        maxSize = -1e9
+        toFindSum = totalSum - x
 
         while j < len(nums):
             currSum += nums[j]
@@ -21,7 +21,7 @@ class Solution:
                 maxSize = max(maxSize, j - i + 1)
 
             j += 1
-
+        
         if maxSize == -1e9:
             return -1
         

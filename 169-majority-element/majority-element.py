@@ -1,12 +1,12 @@
 class Solution:
     def majorityElement(self, nums: list[int]) -> int:
-        # By Boyer Moore voting algorithm
+        # By boyer-moore voting algorithm
 
-        currFreq = 0
         currElem = 0
+        currFreq = 0
 
         for num in nums:
-            if num == currElem:
+            if currElem == num:
                 currFreq += 1
             else:
                 currFreq -= 1
@@ -14,5 +14,5 @@ class Solution:
             if currFreq < 0:
                 currElem = num
                 currFreq = 1
-
+        
         return currElem

@@ -5,7 +5,7 @@ class Solution:
 
         for idx in range(len(nums) - 1, -1, -1):
             answer[idx] = answer[idx + 1] * nums[idx]
-
+        
         prefixProd = 1
 
         for idx in range(len(nums)):

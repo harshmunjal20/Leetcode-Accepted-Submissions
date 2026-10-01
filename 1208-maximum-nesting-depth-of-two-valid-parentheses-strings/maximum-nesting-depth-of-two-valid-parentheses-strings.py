@@ -7,7 +7,7 @@ class Solution:
             if char == ')':
                 depth -= 1
             
-            answer[idx] = depth % 2
+            answer[idx] = depth & 1
 
             if char == '(':
                 depth += 1

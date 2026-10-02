@@ -12,21 +12,22 @@
 
 class Solution:
     def sortedListToBST(self, head: ListNode | None) -> TreeNode | None:
-        def sortedListToBSTUtil(head, tail) -> TreeNode | None:
-            if head == tail:
+        arr = []
+        temp = head
+
+        while temp:
+            arr.append(temp.val)
+            temp = temp.next
+        
+        def sortedListToBSTUtil(start, end) -> TreeNode | None:
+            if start > end:
                 return None
 
-            slow = head
-            fast = head
+            mid = start + (end - start) // 2
+            root = TreeNode(arr[mid])
 
-            while fast != tail and fast.next != tail:
-                slow = slow.next
-                fast = fast.next.next
-
-            root = TreeNode(slow.val)
-
-            root.left = sortedListToBSTUtil(head, slow)
-            root.right = sortedListToBSTUtil(slow.next if slow else None, tail)
+            root.left = sortedListToBSTUtil(start, mid - 1)
+            root.right = sortedListToBSTUtil(mid + 1, end)
             return root
 
-        return sortedListToBSTUtil(head, None)
+        return sortedListToBSTUtil(0, len(arr) - 1)

@@ -12,15 +12,15 @@ class Solution:
         curr = head
         prev = None
         Next = None
-        count = k
 
-        temp = head
+        count = k
         remainingLen = 0
+        temp = head
 
         while temp:
             temp = temp.next
             remainingLen += 1
-
+        
         if remainingLen < k:
             return head
 
@@ -30,6 +30,7 @@ class Solution:
             prev = curr
             curr = Next
             count -= 1
-
+        
         head.next = self.reverseKGroup(curr, k)
         return prev
+        

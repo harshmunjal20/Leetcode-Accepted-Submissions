@@ -1,24 +1,22 @@
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
         n = len(isConnected)
+        visited = [False] * n
         provinceCount = 0
-        visited = [False] * (n + 1)
 
         def DFS(rowIdx : int) -> None:
-            if visited[rowIdx + 1]:
+            if visited[rowIdx]:
                 return
-
-            visited[rowIdx + 1] = True
+            
+            visited[rowIdx] = True
 
             for colIdx in range(n):
-                if isConnected[rowIdx][colIdx] and not visited[colIdx + 1]:
+                if isConnected[rowIdx][colIdx] and not visited[colIdx]:
                     DFS(colIdx)
 
         for rowIdx in range(n):
-            for colIdx in range(n):
-                if isConnected[rowIdx][colIdx] and not visited[rowIdx + 1]:
-                    provinceCount += 1
-                    DFS(rowIdx)
-                    break
-
+            if not visited[rowIdx]:
+                provinceCount += 1
+                DFS(rowIdx)
+            
         return provinceCount

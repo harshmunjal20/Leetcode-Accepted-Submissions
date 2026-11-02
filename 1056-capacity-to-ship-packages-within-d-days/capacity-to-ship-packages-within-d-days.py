@@ -16,7 +16,7 @@ class Solution:
 
             return currDays 
 
-        low = min(weights)
+        low = 1
         high = sum(weights)
 
         while low <= high:

@@ -6,7 +6,7 @@ class Solution:
 
         for idx in range(len(arr) - 1):
             if minDiff > arr[idx + 1] - arr[idx]:
-                ans = []
+                ans.clear()
                 minDiff = arr[idx + 1] - arr[idx]
                 ans.append((arr[idx], arr[idx + 1]))
             elif minDiff == arr[idx + 1] - arr[idx]:

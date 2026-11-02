@@ -5,10 +5,11 @@ class Solution:
         ans = []
 
         for idx in range(len(arr) - 1):
-            minDiff = min(minDiff, abs(arr[idx] - arr[idx + 1]))
-        
-        for idx in range(len(arr) - 1):
-            if abs(arr[idx] - arr[idx + 1]) == minDiff:
+            if minDiff > arr[idx + 1] - arr[idx]:
+                ans = []
+                minDiff = arr[idx + 1] - arr[idx]
                 ans.append((arr[idx], arr[idx + 1]))
-
+            elif minDiff == arr[idx + 1] - arr[idx]:
+                ans.append((arr[idx], arr[idx + 1]))
+        
         return ans

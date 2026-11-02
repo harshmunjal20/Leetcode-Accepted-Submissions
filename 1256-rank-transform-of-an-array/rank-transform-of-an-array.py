@@ -11,7 +11,6 @@ class Solution:
                 hashMap[sortedArr[idx]] = rank
                 rank += 1
         
-        print(hashMap)
 
         for idx in range(len(arr)):
             arr[idx] = hashMap[arr[idx]]

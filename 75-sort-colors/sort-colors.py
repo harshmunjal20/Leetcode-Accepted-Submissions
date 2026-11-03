@@ -1,14 +1,17 @@
-from collections import Counter
-
 class Solution:
     def sortColors(self, nums: list[int]) -> None:
         """
         Do not return anything, modify nums in-place instead.
         """
-        freqMap = Counter(nums)
-        idx = 0
+        i, j, runningIdx = 0, len(nums) - 1, 0
 
-        for num in range(3):
-            for _ in range(freqMap[num]):
-                nums[idx] = num
-                idx += 1
+        while runningIdx <= j:
+            if nums[runningIdx] == 0:
+                nums[i], nums[runningIdx] = nums[runningIdx], nums[i]
+                i += 1
+                runningIdx += 1
+            elif nums[runningIdx] == 1:
+                runningIdx += 1
+            else:
+                nums[j], nums[runningIdx] = nums[runningIdx], nums[j]
+                j -= 1

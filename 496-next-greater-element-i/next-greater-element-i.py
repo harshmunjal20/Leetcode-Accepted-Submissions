@@ -4,7 +4,7 @@ class Solution:
         hashMap = {}
 
         for idx in range(len(nums2) - 1, -1, -1):
-            while stack and stack[-1] < nums2[idx]:
+            while stack and stack[-1] <= nums2[idx]:
                 stack.pop()
             
             if stack:

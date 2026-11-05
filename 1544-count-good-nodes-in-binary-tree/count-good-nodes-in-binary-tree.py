@@ -14,10 +14,11 @@ class Solution:
                 return
             
             if root.val >= maxVal:
+                maxVal = root.val
                 self.count += 1
             
-            goodNodesUtil(root.left, max(maxVal, root.val))
-            goodNodesUtil(root.right, max(maxVal, root.val))
+            goodNodesUtil(root.left, maxVal)
+            goodNodesUtil(root.right, maxVal)
         
         goodNodesUtil(root, -1e10)
         return self.count

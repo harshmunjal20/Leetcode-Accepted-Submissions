@@ -1,16 +1,22 @@
 class Solution:
     def findTheDistanceValue(self, arr1: list[int], arr2: list[int], d: int) -> int:
+        # |5 - x| <= d
+        # 5 - d <= x <= d + 5
+        arr2.sort()
         count = 0
-        
-        for num1 in arr1:
-            flag = True
 
-            for num2 in arr2:
-                if abs(num1 - num2) <= d:
-                    flag = False
+        for elem in arr1:
+            low = 0
+            high = len(arr2) - 1
+
+            while low <= high:
+                mid = low + (high - low) // 2
+                if elem - d <= arr2[mid] <= elem + d:
+                    count += 1
                     break
-            
-            if flag:
-                count += 1
+                elif arr2[mid] < elem - d:
+                    low = mid + 1
+                elif arr2[mid] > elem + d:
+                    high = mid - 1
 
-        return count
+        return len(arr1) - count

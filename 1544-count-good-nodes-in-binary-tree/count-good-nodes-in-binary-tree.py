@@ -4,21 +4,14 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
-        self.count = 0
-
-        def goodNodesUtil(root: TreeNode, maxVal : int) -> None:
+        def goodNodesUtil(root: TreeNode, maxVal : int) -> int:
             if not root:
-                return
+                return 0
             
-            if root.val >= maxVal:
-                maxVal = root.val
-                self.count += 1
-            
-            goodNodesUtil(root.left, maxVal)
-            goodNodesUtil(root.right, maxVal)
+            isGood = 1 if root.val >= maxVal else 0
+            maxVal = max(maxVal, root.val)
+            return isGood + goodNodesUtil(root.left, maxVal) + goodNodesUtil(root.right, maxVal)
         
-        goodNodesUtil(root, -1e10)
-        return self.count
+        return goodNodesUtil(root, -1e10)

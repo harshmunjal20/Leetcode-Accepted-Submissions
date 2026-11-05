@@ -8,5 +8,5 @@ class Solution:
                 ans[-1][1] = max(ans[-1][1], end)
             else:
                 ans.append([start, end])
-        
+            
         return ans

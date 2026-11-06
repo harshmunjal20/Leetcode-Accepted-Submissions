@@ -15,7 +15,7 @@ class Solution:
                     maxArea = max(maxArea, dp[colIdx] * dp[colIdx])
                 else:
                     dp[colIdx] = 0
-
+                
                 prevVal = currVal
 
         return maxArea

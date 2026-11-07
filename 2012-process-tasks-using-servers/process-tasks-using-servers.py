@@ -2,27 +2,27 @@ import heapq
 
 class Solution:
     def assignTasks(self, servers: list[int], tasks: list[int]) -> list[int]:
-        serversQueue = []
-        currExecutionQueue = []
+        serversQue = []
+        currExecutionQue = []
         ans = [0] * len(tasks)
         runningTime = 0
 
-        for idx, weight in enumerate(servers):
-            heapq.heappush(serversQueue, (weight, idx))
-        
-        for idx, task in enumerate(tasks):
-            currTime , weight, serverIdx = 0, 0, 0
-            while currExecutionQueue and currExecutionQueue[0][0] <= runningTime:
-                currTime, weight, serverIdx = heapq.heappop(currExecutionQueue) 
-                heapq.heappush(serversQueue, (weight, serverIdx))
+        for idx, serverWeight in enumerate(servers):
+            heapq.heappush(serversQue, (serverWeight, idx))
 
-            if serversQueue:
-                weight, serverIdx = heapq.heappop(serversQueue)
+        for idx, timeExecution in enumerate(tasks):
+            while currExecutionQue and currExecutionQue[0][0] <= runningTime:
+                currTime, serverWeight, serverIdx = heapq.heappop(currExecutionQue)
+                heapq.heappush(serversQue, (serverWeight, serverIdx))
+            
+            serverWeight, serverIdx = 0, 0
+
+            if serversQue:
+                serverWeight, serverIdx = heapq.heappop(serversQue)
             else:
-                runningTime = currExecutionQueue[0][0]
-                currTime, weight, serverIdx = heapq.heappop(currExecutionQueue)
-
-            heapq.heappush(currExecutionQueue, (runningTime + task, weight, serverIdx))
+                runningTime, serverWeight, serverIdx = heapq.heappop(currExecutionQue)
+            
+            heapq.heappush(currExecutionQue, (runningTime + timeExecution, serverWeight, serverIdx))
             ans[idx] = serverIdx
             runningTime = max(runningTime, idx + 1)
 

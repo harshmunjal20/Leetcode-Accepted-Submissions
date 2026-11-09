@@ -4,17 +4,25 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
 class Solution:
     def preorderTraversal(self, root: TreeNode | None) -> list[int]:
+        #iterative preorder
+        if not root:
+            return []
+
+        stack = []
+        stack.append(root)
         ans = []
 
-        def preorderTraversalUtil(root):
-            if not root:
-                return
-            
-            ans.append(root.val)
-            preorderTraversalUtil(root.left)
-            preorderTraversalUtil(root.right)
-        
-        preorderTraversalUtil(root)
+        while stack:
+            node = stack.pop()
+            ans.append(node.val)
+
+            if node.right:
+                stack.append(node.right)
+
+            if node.left:
+                stack.append(node.left)
+
         return ans

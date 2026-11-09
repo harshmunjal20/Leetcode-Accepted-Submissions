@@ -4,12 +4,11 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
 class Solution:
     def inorderTraversal(self, root: TreeNode | None) -> list[int]:
-        node = root
-        ans = []
         stack = []
+        ans = []
+        node = root
 
         while node or stack:
             while node:
@@ -19,5 +18,5 @@ class Solution:
             node = stack.pop()
             ans.append(node.val)
             node = node.right
-
+        
         return ans

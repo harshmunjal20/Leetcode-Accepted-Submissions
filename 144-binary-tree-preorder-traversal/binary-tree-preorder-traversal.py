@@ -7,13 +7,12 @@
 
 class Solution:
     def preorderTraversal(self, root: TreeNode | None) -> list[int]:
-        #iterative preorder
         if not root:
             return []
 
         stack = []
-        stack.append(root)
         ans = []
+        stack.append(root)
 
         while stack:
             node = stack.pop()
@@ -21,7 +20,7 @@ class Solution:
 
             if node.right:
                 stack.append(node.right)
-
+            
             if node.left:
                 stack.append(node.left)
 
